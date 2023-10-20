@@ -55,8 +55,14 @@ $(document).ready(() => {
         conn.invoke("SendMessage", user, message).catch(err => console.log(`Something went wrong on: ${err}`));
     })
 
-    conn.on("receiveMessage",function( user,message ){
-        $("#result").append(user + " says " + message + "<br>");
+    const ulTag = document.getElementById("result");
+    conn.on("receiveMessage", function (user, message) {
+
+        
+        const liTag = document.createElement("li");
+        liTag.classList.add("list-group-item");
+        liTag.textContent = user + " says " + message;
+        ulTag.appendChild(liTag);
     })
 
     
