@@ -1,10 +1,15 @@
 using SignalRChatApp.Api.Hubs;
+using SignalRChatApp.Application;
+using SignalRChatApp.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSignalR();
 builder.Services.AddControllers();
+
+builder.Services.ConfigureApplication(builder.Configuration);
+builder.Services.ConfigurePersistence(builder.Configuration);
 
 builder.Services.AddCors(options =>
 {
