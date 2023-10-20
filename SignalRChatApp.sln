@@ -5,7 +5,13 @@ VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRChatApp.Client", "SignalRChatApp.Client\SignalRChatApp.Client.csproj", "{1E582F2C-3483-42E2-8152-890D447F1917}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRChatApp.Api", "SignalRChatApp.Api\SignalRChatApp.Api.csproj", "{93540C9D-7512-4301-8D23-DBFCC9083100}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRChatApp.Api", "SignalRChatApp.Api\SignalRChatApp.Api.csproj", "{93540C9D-7512-4301-8D23-DBFCC9083100}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRChatApp.Persistence", "SignalRChatApp.Persistence\SignalRChatApp.Persistence.csproj", "{5EEFEFE9-C89E-44D4-A87A-844B1F651845}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRChatApp.Core", "SignalRChatApp.Core\SignalRChatApp.Core.csproj", "{4B390114-6190-4459-869A-9BA99EF622C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRChatApp.Application", "SignalRChatApp.Application\SignalRChatApp.Application.csproj", "{9835876C-158A-4AE5-ADC9-79354F5B00D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{93540C9D-7512-4301-8D23-DBFCC9083100}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93540C9D-7512-4301-8D23-DBFCC9083100}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93540C9D-7512-4301-8D23-DBFCC9083100}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EEFEFE9-C89E-44D4-A87A-844B1F651845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EEFEFE9-C89E-44D4-A87A-844B1F651845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EEFEFE9-C89E-44D4-A87A-844B1F651845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EEFEFE9-C89E-44D4-A87A-844B1F651845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B390114-6190-4459-869A-9BA99EF622C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B390114-6190-4459-869A-9BA99EF622C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B390114-6190-4459-869A-9BA99EF622C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B390114-6190-4459-869A-9BA99EF622C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9835876C-158A-4AE5-ADC9-79354F5B00D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9835876C-158A-4AE5-ADC9-79354F5B00D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9835876C-158A-4AE5-ADC9-79354F5B00D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9835876C-158A-4AE5-ADC9-79354F5B00D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
