@@ -1,12 +1,22 @@
+using Microsoft.AspNetCore.Identity;
 using SignalRChatApp.Api.Hubs;
 using SignalRChatApp.Application;
 using SignalRChatApp.Persistence;
+using SignalRChatApp.Persistence.DbContext;
+using SignalRChatApp.Persistence.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSignalR();
 builder.Services.AddControllers();
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+{
+    opt.User.RequireUniqueEmail = true;
+    opt.Password.RequireNonAlphanumeric = false;
+}).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
 
 builder.Services.ConfigureApplication(builder.Configuration);
 builder.Services.ConfigurePersistence(builder.Configuration);

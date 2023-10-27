@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SignalRChatApp.Application\SignalRChatApp.Application.csproj" />
     <ProjectReference Include="..\SignalRChatApp.Persistence\SignalRChatApp.Persistence.csproj" />
   </ItemGroup>

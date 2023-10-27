@@ -32,7 +32,7 @@ namespace SignalRChatApp.Persistence.Identity
             return result.Succeeded;
         }
 
-        public async Task<(Result result, string userId)> CreateUserAsync(object user, string password)
+        public async Task<(Result result, string userId)> CreateUserAsync(object user)
         {
             var userCast = (UserRegistrationDto)user;
             var userObject = new ApplicationUser
@@ -42,7 +42,7 @@ namespace SignalRChatApp.Persistence.Identity
                 LastName = userCast.LastName,
                 Email = userCast.Email
             };
-            var result = await _userManager.CreateAsync(userObject,password);
+            var result = await _userManager.CreateAsync(userObject,userCast.Password);
             return (result.ToApplicationResult(), userObject.Id);
         }
 
