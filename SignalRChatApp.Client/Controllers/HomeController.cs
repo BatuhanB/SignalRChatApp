@@ -13,8 +13,9 @@ namespace SignalRChatApp.Client.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string userName)
         {
+            ViewData["UserName"] = userName;
             return View();
         }
 

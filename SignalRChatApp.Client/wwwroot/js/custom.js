@@ -51,17 +51,18 @@ $(document).ready(() => {
 
     $("#btn-send").click(() => {
         let message = $("#txt-message").val();
-        let user = $("#txt-user").val();
-        conn.invoke("SendMessage", user, message).catch(err => console.log(`Something went wrong on: ${err}`));
+        let user = document.getElementById("txt-user");
+        let userName = user.textContent;
+        conn.invoke("SendMessage", userName, message).catch(err => console.log(`Something went wrong on: ${err}`));
     })
 
     const ulTag = document.getElementById("result");
-    conn.on("receiveMessage", function (user, message) {
+    conn.on("receiveMessage", function (userName, message) {
 
         
         const liTag = document.createElement("li");
         liTag.classList.add("list-group-item");
-        liTag.textContent = user + " says " + message;
+        liTag.textContent = userName + " says " + message;
         ulTag.appendChild(liTag);
     })
 
