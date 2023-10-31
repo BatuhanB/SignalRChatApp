@@ -18,15 +18,21 @@ namespace SignalRChatApp.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(UserRegistrationDto model)
         {
-            var result =  await _identityService.CreateUserAsync(model);
-            if (result.result.Errors.Any())
+            var result = await _identityService.CreateUserAsync(model);
+            return new ObjectResult(result)
             {
-                return BadRequest(result.result.Errors);
-            }
-            else
+                StatusCode = result.result.StatusCode
+            };
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(UserLoginDto model)
+        {
+            var result = await _identityService.LoginAsync(model);
+            return new ObjectResult(result)
             {
-                return Ok(result);
-            }
+                StatusCode = result.StatusCode
+            };
         }
 
     }

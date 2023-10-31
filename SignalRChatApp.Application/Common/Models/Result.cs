@@ -1,24 +1,32 @@
-﻿namespace SignalRChatApp.Application.Common.Models
+﻿using System.Text.Json.Serialization;
+
+namespace SignalRChatApp.Application.Common.Models
 {
-    public class Result
+    public class Response<T> where T : class
     {
-        public Result(bool status,IEnumerable<string> errors)
+        public T? Data { get; private set; }
+        public int StatusCode { get; private set; }
+        public Error? Error { get; private set; }
+        [JsonIgnore]
+        public bool isSuccess { get; private set; }
+
+        public static Response<T> Success(T data, int statusCode)
         {
-            Status = status;
-            Errors = errors.ToArray();
+            return new Response<T> { Data = data, StatusCode = statusCode, isSuccess = true };
+        }
+        public static Response<T> Success(int statusCode)
+        {
+            return new Response<T> { Data = default, StatusCode = statusCode, isSuccess = true };
+        }
+        public static Response<T> Fail(int statusCode, Error error)
+        {
+            return new Response<T> { StatusCode = statusCode, Error = error, isSuccess = false };
+        }
+        public static Response<T> Fail(int statusCode, string errorMessage, bool isShow)
+        {
+            var errorDto = new Error(errorMessage, isShow);
+            return new Response<T> { StatusCode = statusCode, Error = errorDto, isSuccess = false };
         }
 
-        public bool Status { get; set; }
-        public string[] Errors { get; set; }
-
-        public static Result Success()
-        {
-            return new Result(true, Array.Empty<string>());
-        }
-
-        public static Result Failure(IEnumerable<string> errors)
-        {
-            return new Result(false, errors);
-        }
     }
 }

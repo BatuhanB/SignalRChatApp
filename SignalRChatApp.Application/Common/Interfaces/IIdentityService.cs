@@ -10,8 +10,10 @@ namespace SignalRChatApp.Application.Common.Interfaces
 
         Task<bool> AuthorizeAsync(string userId, string policyName);
 
-        Task<(Result result, string userId)> CreateUserAsync(object user);
+        Task<(Response<object> result, string userId)> CreateUserAsync(object user);
 
-        Task<Result> DeleteUserAsync(string userId);
+        Task<Response<string>> DeleteUserAsync(string userId);
+
+        Task<Response<object>> LoginAsync(object user);
     }
 }
