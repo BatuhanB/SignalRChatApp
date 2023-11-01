@@ -35,5 +35,14 @@ namespace SignalRChatApp.Api.Controllers
             };
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            var result = await _identityService.LogoutAsync();
+            return new ObjectResult(result)
+            {
+                StatusCode = result.StatusCode
+            };
+        }
     }
 }

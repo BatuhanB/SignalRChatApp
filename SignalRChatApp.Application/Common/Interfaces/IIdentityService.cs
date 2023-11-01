@@ -15,5 +15,7 @@ namespace SignalRChatApp.Application.Common.Interfaces
         Task<Response<string>> DeleteUserAsync(string userId);
 
         Task<Response<object>> LoginAsync(object user);
+
+        Task<Response<object>> LogoutAsync();
     }
 }

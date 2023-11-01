@@ -99,4 +99,10 @@ public class IdentityService : IIdentityService
         }
         return Response<object>.Success(userCast, 200);
     }
+
+    public async Task<Response<object>> LogoutAsync()
+    {
+        await _signInManager.SignOutAsync();
+        return Response<object>.Success(200);
+    }
 }

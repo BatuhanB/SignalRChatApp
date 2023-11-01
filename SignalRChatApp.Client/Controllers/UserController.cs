@@ -2,15 +2,14 @@
 using SignalRChatApp.Client.Models;
 using System.Text;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SignalRChatApp.Client.Controllers
 {
-    public class LoginController : Controller
+    public class UserController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public LoginController(IHttpClientFactory httpClientFactory)
+        public UserController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
@@ -67,6 +66,20 @@ namespace SignalRChatApp.Client.Controllers
                 }
             }
             return View("Index");
+        }
+
+        public IActionResult Logout()
+        {
+            var http = _httpClientFactory.CreateClient("API");
+            var result = http.GetAsync("api/User/Logout").Result;
+            var jsonString = result.Content.ReadAsStringAsync().Result;
+            var res = JsonSerializer.Deserialize<LogoutModel>(jsonString);
+            if (res!.statusCode is 200)
+            {
+                return RedirectToAction("Index", "User");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SignalRChatApp.Client.Models;
 using System.Diagnostics;
 
 namespace SignalRChatApp.Client.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -13,12 +15,14 @@ namespace SignalRChatApp.Client.Controllers
             _logger = logger;
         }
 
+        [Authorize(Roles ="User")]
         public IActionResult Index(string userName)
         {
             ViewData["UserName"] = userName;
             return View();
         }
 
+        [Authorize(Roles = "User")]
         public IActionResult Privacy()
         {
             return View();
