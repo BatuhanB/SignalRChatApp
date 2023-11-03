@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SignalRChatApp.Application.Common.Interfaces;
 using SignalRChatApp.Application.Common.Models;
 using SignalRChatApp.Domain.Entities.Dtos;
+using System.Security.Claims;
 
 namespace SignalRChatApp.Persistence.Identity;
 
@@ -92,11 +94,25 @@ public class IdentityService : IIdentityService
     {
         var userCast = (UserLoginDto)user;
         if (userCast == null) return Response<object>.Fail(400,new Error());
-        var result = await _signInManager.PasswordSignInAsync(userName: userCast.UserName, userCast.Password, isPersistent: userCast.RememberMe, false);
-        if (!result.Succeeded)
+        var userForRole = await _userManager.FindByNameAsync(userCast!.UserName);
+        var roles = await _userManager.GetRolesAsync(userForRole);
+        var claims = new List<Claim>
         {
-            return Response<object>.Fail(400,new Error());
+            new Claim("user",userCast.UserName)
+        };
+        foreach (var claim in roles)
+        {
+            claims.Add(new Claim("role", claim));
         }
+
+        //Gonna fix it later 
+
+        //var result = await _signInManager.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims, "cookies", "user", "role")),userCast.RememberMe,false);
+        ////userName: userCast.UserName, userCast.Password, isPersistent: userCast.RememberMe, false
+        //if (!result.Succeeded)
+        //{
+        //    return Response<object>.Fail(400, new Error());
+        //}
         return Response<object>.Success(userCast, 200);
     }
 
@@ -105,4 +121,5 @@ public class IdentityService : IIdentityService
         await _signInManager.SignOutAsync();
         return Response<object>.Success(200);
     }
+
 }
