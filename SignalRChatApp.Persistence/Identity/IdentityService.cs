@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SignalRChatApp.Application.Common.Interfaces;
 using SignalRChatApp.Application.Common.Models;
 using SignalRChatApp.Domain.Entities.Dtos;
+using System.Data;
 using System.Security.Claims;
 
 namespace SignalRChatApp.Persistence.Identity;
@@ -31,17 +32,17 @@ public class IdentityService : IIdentityService
         _roleManager = roleManager;
     }
 
-    public async Task<Response<object>> AssignRoles(string id)
+    public async Task<Response<object>> AssignRoles(string id, string roleName)
     {
         var user = await _userManager.FindByIdAsync(id);
-        var userRoles = await _userManager.GetRolesAsync(user);
-        var roles = await _roleManager.Roles.Select(x => new AssignRoleDto
+        var result = await _userManager.AddToRoleAsync(user, roleName);
+        if (result.Succeeded)
         {
-            RoleId = x.Id,
-            RoleName = x.Name,
-            IsAssigned = userRoles.Any(a => a == x.Name)
-        }).ToListAsync();
-        return Response<object>.Success(new { Roles = roles, UserId = user.Id }, 200);
+            return Response<object>.Success(new { Role = roleName, UserId = user.Id }, 200);
+        }
+        var err = result.Errors.Select(x => x.Description).ToList();
+        var errors = new Error(err, false);
+        return Response<object>.Fail(400, errors);
     }
 
     public async Task<bool> AuthorizeAsync(string userId, string policyName)
@@ -56,8 +57,16 @@ public class IdentityService : IIdentityService
     public async Task<Response<object>> CreateRoleAsync(object model)
     {
         var modelCast = (CreateRoleDto)model;
-        var role = new UserRoles() { Name = modelCast.Name };
-        var result = await _roleManager.CreateAsync(role);
+        var role = new UserRoles() { Id = Guid.NewGuid().ToString(), Name = modelCast.Name };
+        var result = new IdentityResult();
+        if (!string.IsNullOrEmpty(role.Name))
+        {
+            if (!(await _roleManager.RoleExistsAsync(role.Name)))
+            {
+                result = await _roleManager.CreateAsync(role);
+            }
+        }
+
         if (result.Succeeded)
         {
             return Response<object>.Success(role, 200);
@@ -127,7 +136,7 @@ public class IdentityService : IIdentityService
         //Gonna fix it later 
 
         var result = await _signInManager.PasswordSignInAsync(userName: userCast.UserName, userCast.Password, isPersistent: userCast.RememberMe, false);
-        
+
         if (!result.Succeeded)
         {
             return Response<object>.Fail(400, new Error());

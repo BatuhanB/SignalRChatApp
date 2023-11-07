@@ -20,6 +20,6 @@ namespace SignalRChatApp.Application.Common.Interfaces
 
         Task<Response<object>> CreateRoleAsync(object model);
 
-        Task<Response<object>> AssignRoles(string id);
+        Task<Response<object>> AssignRoles(string id, string roleName);
     }
 }

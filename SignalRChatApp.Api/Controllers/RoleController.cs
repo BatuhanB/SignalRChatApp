@@ -23,9 +23,9 @@ namespace SignalRChatApp.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<Response<object>> Assign([FromHeader] string id)
+        public async Task<Response<object>> Assign([FromHeader] string id, string roleName)
         {
-            return await _identityService.AssignRoles(id);
+            return await _identityService.AssignRoles(id,roleName);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace SignalRChatApp.Persistence.DbContext
 {
-    public class AppDbContext : IdentityDbContext<ApplicationUser>
+    public class AppDbContext : IdentityDbContext<ApplicationUser,UserRoles,string>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options) { }
 
