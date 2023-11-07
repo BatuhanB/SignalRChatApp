@@ -15,14 +15,14 @@ namespace SignalRChatApp.Client.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles ="User")]
+        [Authorize(Roles ="Admin")]
         public IActionResult Index(string userName)
         {
             ViewData["UserName"] = userName;
             return View();
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Privacy()
         {
             return View();
