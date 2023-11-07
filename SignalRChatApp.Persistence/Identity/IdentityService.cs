@@ -16,16 +16,32 @@ public class IdentityService : IIdentityService
     private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
     private readonly IAuthorizationService _authorizationService;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly RoleManager<UserRoles> _roleManager;
 
     public IdentityService(UserManager<ApplicationUser> userManager,
         IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
         IAuthorizationService authorizationService,
-        SignInManager<ApplicationUser> signInManager)
+        SignInManager<ApplicationUser> signInManager,
+        RoleManager<UserRoles> roleManager)
     {
         _userManager = userManager;
         _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
         _authorizationService = authorizationService;
         _signInManager = signInManager;
+        _roleManager = roleManager;
+    }
+
+    public async Task<Response<object>> AssignRoles(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        var userRoles = await _userManager.GetRolesAsync(user);
+        var roles = await _roleManager.Roles.Select(x => new AssignRoleDto
+        {
+            RoleId = x.Id,
+            RoleName = x.Name,
+            IsAssigned = userRoles.Any(a => a == x.Name)
+        }).ToListAsync();
+        return Response<object>.Success(new { Roles = roles, UserId = user.Id }, 200);
     }
 
     public async Task<bool> AuthorizeAsync(string userId, string policyName)
@@ -35,6 +51,20 @@ public class IdentityService : IIdentityService
         var principal = await _userClaimsPrincipalFactory.CreateAsync(user);
         var result = await _authorizationService.AuthorizeAsync(principal, policyName);
         return result.Succeeded;
+    }
+
+    public async Task<Response<object>> CreateRoleAsync(object model)
+    {
+        var modelCast = (CreateRoleDto)model;
+        var role = new UserRoles() { Name = modelCast.Name };
+        var result = await _roleManager.CreateAsync(role);
+        if (result.Succeeded)
+        {
+            return Response<object>.Success(role, 200);
+        }
+        var errors = result.Errors.Select(x => x.Description).ToList();
+        var err = new Error(errors, false);
+        return Response<object>.Fail(400, err);
     }
 
     public async Task<(Response<object> result, string userId)> CreateUserAsync(object user)
@@ -54,26 +84,26 @@ public class IdentityService : IIdentityService
             return (Response<object>.Fail(500, new Error(errs, false)), userObject.Id);
         }
 
-        return (Response<object>.Success(userObject, 200),userObject.Id);
+        return (Response<object>.Success(userObject, 200), userObject.Id);
     }
 
     public async Task<Response<string>> DeleteUserAsync(string userId)
     {
         var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
 
-        if(user != null)
+        if (user != null)
         {
             await DeleteUserAsync(user);
         }
 
-        return Response<string>.Success(userId,200);
+        return Response<string>.Success(userId, 200);
     }
 
     public async Task<Response<object>> DeleteUserAsync(ApplicationUser user)
     {
         var result = await _userManager.DeleteAsync(user);
 
-        return Response<object>.Success(result,200);
+        return Response<object>.Success(result, 200);
     }
 
     public async Task<string?> GetUserNameAsync(string userId)
@@ -93,26 +123,15 @@ public class IdentityService : IIdentityService
     public async Task<Response<object>> LoginAsync(object user)
     {
         var userCast = (UserLoginDto)user;
-        if (userCast == null) return Response<object>.Fail(400,new Error());
-        var userForRole = await _userManager.FindByNameAsync(userCast!.UserName);
-        var roles = await _userManager.GetRolesAsync(userForRole);
-        var claims = new List<Claim>
-        {
-            new Claim("user",userCast.UserName)
-        };
-        foreach (var claim in roles)
-        {
-            claims.Add(new Claim("role", claim));
-        }
-
+        if (userCast == null) return Response<object>.Fail(400, new Error());
         //Gonna fix it later 
 
-        //var result = await _signInManager.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims, "cookies", "user", "role")),userCast.RememberMe,false);
-        ////userName: userCast.UserName, userCast.Password, isPersistent: userCast.RememberMe, false
-        //if (!result.Succeeded)
-        //{
-        //    return Response<object>.Fail(400, new Error());
-        //}
+        var result = await _signInManager.PasswordSignInAsync(userName: userCast.UserName, userCast.Password, isPersistent: userCast.RememberMe, false);
+        
+        if (!result.Succeeded)
+        {
+            return Response<object>.Fail(400, new Error());
+        }
         return Response<object>.Success(userCast, 200);
     }
 

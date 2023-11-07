@@ -17,5 +17,9 @@ namespace SignalRChatApp.Application.Common.Interfaces
         Task<Response<object>> LoginAsync(object user);
 
         Task<Response<object>> LogoutAsync();
+
+        Task<Response<object>> CreateRoleAsync(object model);
+
+        Task<Response<object>> AssignRoles(string id);
     }
 }

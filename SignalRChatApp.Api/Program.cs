@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();
 builder.Services.AddControllers();
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+builder.Services.AddIdentity<ApplicationUser, UserRoles>(opt =>
 {
     opt.User.RequireUniqueEmail = true;
     opt.Password.RequireNonAlphanumeric = false;
