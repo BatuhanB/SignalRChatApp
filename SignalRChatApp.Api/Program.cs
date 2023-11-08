@@ -22,7 +22,6 @@ builder.Services.AddIdentity<ApplicationUser, UserRoles>(opt =>
     opt.Password.RequireDigit = false;
 }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
-
 builder.Services.ConfigureApplication(builder.Configuration);
 builder.Services.ConfigurePersistence(builder.Configuration);
 
@@ -56,9 +55,9 @@ app.UseCors();
 
 app.MapHub<ChatHub>("/chat-hub");
 
-app.UseAuthorization();
-
 app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 

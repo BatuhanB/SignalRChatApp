@@ -4,26 +4,24 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie();
-
-
-builder.Services.ConfigureApplicationCookie(_ =>
-{
-    _.LoginPath = new PathString("/User/Login");
-    _.LogoutPath = new PathString("/User/Logout");
-    _.Cookie = new CookieBuilder
+    .AddCookie(opt =>
     {
-        Name = "AspNetCoreIdentityCookie", 
-        HttpOnly = false, 
-        Expiration = TimeSpan.FromMinutes(2), 
-        SameSite = SameSiteMode.Lax, 
-        SecurePolicy = CookieSecurePolicy.Always 
-    };
-    _.SlidingExpiration = true; 
-    _.ExpireTimeSpan = TimeSpan.FromMinutes(2);
-    _.AccessDeniedPath = new PathString("/Shared/Error");
-});
+        opt.LoginPath = "/";
+        opt.LogoutPath = "/user/logout";
+        opt.Cookie = new CookieBuilder
+        {
+            Name = "AspNetCoreIdentityCookie",
+            HttpOnly = false,
+            SameSite = SameSiteMode.Lax,
+            SecurePolicy = CookieSecurePolicy.Always
+        };
+        opt.SlidingExpiration = true;
+        opt.ExpireTimeSpan = TimeSpan.FromMinutes(2);
+        opt.AccessDeniedPath = "/shared/error";
+    });
+
 
 builder.Services.AddHttpClient("API", httpClient =>
 {

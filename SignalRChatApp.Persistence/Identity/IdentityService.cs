@@ -132,10 +132,10 @@ public class IdentityService : IIdentityService
     public async Task<Response<object>> LoginAsync(object user)
     {
         var userCast = (UserLoginDto)user;
+        var userModel = await _userManager.FindByNameAsync(userCast!.UserName);
         if (userCast == null) return Response<object>.Fail(400, new Error());
-        //Gonna fix it later 
-
-        var result = await _signInManager.PasswordSignInAsync(userName: userCast.UserName, userCast.Password, isPersistent: userCast.RememberMe, false);
+        
+        var result = await _signInManager.PasswordSignInAsync(user: userModel, userCast.Password, isPersistent: userCast.RememberMe, false);
 
         if (!result.Succeeded)
         {

@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace SignalRChatApp.Client.Controllers
 {
-    [Authorize]
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,14 +15,13 @@ namespace SignalRChatApp.Client.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles ="Admin")]
+        [Authorize]
         public IActionResult Index(string userName)
         {
             ViewData["UserName"] = userName;
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
         public IActionResult Privacy()
         {
             return View();
