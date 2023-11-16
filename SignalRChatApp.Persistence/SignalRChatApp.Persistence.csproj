@@ -26,11 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SignalRChatApp.Application\SignalRChatApp.Application.csproj" />
-    <ProjectReference Include="..\SignalRChatApp.Core\SignalRChatApp.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Configurations\" />
   </ItemGroup>
 

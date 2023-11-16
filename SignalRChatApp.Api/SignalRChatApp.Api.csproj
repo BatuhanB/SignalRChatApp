@@ -25,4 +25,8 @@
     <ProjectReference Include="..\SignalRChatApp.Persistence\SignalRChatApp.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

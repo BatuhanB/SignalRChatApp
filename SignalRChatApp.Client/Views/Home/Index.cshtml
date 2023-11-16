@@ -2,41 +2,9 @@
     ViewData["Title"] = "Home Page";
 }
 
-<style>
-    .row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #btn-send {
-        width: 200px;
-    }
-    /* .form-control{
-        width:500px !important;
-    } */
-</style>
-
 <div class="container">
-    <div class="row">
-
-        <div class="col-md-12">
-            <div id="conn-result" style="display:none;"></div>
-        </div>
-        <div class="col-md-6">
-            @* <input id="txt-user" class="form-control" /> *@
-            <h5 id="txt-user">@ViewData["UserName"]</h5>
-        </div>
-        <br />
-        <div class="col-md-6">
-            <input id="txt-message" class="form-control" />
-        </div>
-        <br />
-            <button id="btn-send" class="btn btn-dark">Send</button>
-        <div>
-            <ul id="result" class="list-group list-group-flush"></ul>
-        </div>
+    <div class="row" style="display:flex;justify-content:center;align-items:center;">
+        <h1>This is the Landing Page!</h1>
+        <h2>Welcome!</h2>
     </div>
 </div>
-<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/custom.js"></script>

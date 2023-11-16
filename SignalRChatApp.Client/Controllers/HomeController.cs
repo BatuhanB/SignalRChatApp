@@ -5,20 +5,17 @@ using System.Diagnostics;
 
 namespace SignalRChatApp.Client.Controllers
 {
-    
+    //[Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        //[Authorize(Roles = "User")]
+        public IActionResult Index()
         {
-            _logger = logger;
+            return View();
         }
-
-        [Authorize]
-        public IActionResult Index(string userName)
+        
+        public IActionResult Chats()
         {
-            ViewData["UserName"] = userName;
             return View();
         }
 

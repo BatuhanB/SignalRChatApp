@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SignalRChatApp.Client.Models;
+using SignalRChatApp.Application.Common.Interfaces;
+using SignalRChatApp.Client.Extensions;
+using SignalRChatApp.Client.ViewModels;
+using SignalRChatApp.Domain.Entities.Dtos;
 using System.Text;
 using System.Text.Json;
 
@@ -7,13 +10,12 @@ namespace SignalRChatApp.Client.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IUserService _userService;
 
-        public UserController(IHttpClientFactory httpClientFactory)
+        public UserController(IUserService userService)
         {
-            _httpClientFactory = httpClientFactory;
+            _userService = userService;
         }
-
 
         // Index Page
         public IActionResult Index()
@@ -27,24 +29,30 @@ namespace SignalRChatApp.Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(RegisterModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            var http = _httpClientFactory.CreateClient("API");
-
             if (ModelState.IsValid)
             {
-                var serializedData = JsonSerializer.Serialize(model);
-                var stringContent = new StringContent(serializedData, Encoding.UTF8, "application/json");
-                var result = http.PostAsync("api/User/Register", stringContent).Result;
-
-                if (result.IsSuccessStatusCode)
+                var user = new UserRegistrationDto()
                 {
-                    return View("Index");
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Password = model.Password,
+                    UserName = model.UserName
+                };
+                var result = await _userService.CreateUserAsync(user);
+                if (result.isSuccess)
+                {
+                    TempData["SuccessMessage"] = "Registration has successfully completed!";
+                    return RedirectToAction("Index", "User");
                 }
+                ModelState.AddModelErrorList(result.Error?.Errors!);
+                return View();
             }
+
             return View();
         }
-
 
         public IActionResult Login()
         {
@@ -52,35 +60,38 @@ namespace SignalRChatApp.Client.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginModel model)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
-            var http = _httpClientFactory.CreateClient("API");
+            returnUrl ??= Url.Action("Chats", "Home");
+            if (model == null)
+            {
+                ModelState.AddModelError(string.Empty, "Please check your information!");
+                return View();
+            }
 
             if (ModelState.IsValid)
             {
-                var serializedData = JsonSerializer.Serialize(model);
-                var stringContent = new StringContent(serializedData, Encoding.UTF8, "application/json");
-                var result = http.PostAsync("api/User/Login", stringContent).Result;
-                if (result.IsSuccessStatusCode)
+                var user = new UserLoginDto()
                 {
-                    return RedirectToAction("Index", "Home", new { userName = model.UserName });
+                    Email = model.Email,
+                    Password = model.Password,
+                    RememberMe = model.RememberMe
+                };
+                var result = await _userService.LoginAsync(user);
+                if (result.isSuccess)
+                {
+                    return Redirect(returnUrl!);
                 }
+                ModelState.AddModelErrorList(result.Error?.Errors!);
+                return View();
             }
-            return View("Index");
+            return View();
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            var http = _httpClientFactory.CreateClient("API");
-            var result = http.GetAsync("api/User/Logout").Result;
-            var jsonString = result.Content.ReadAsStringAsync().Result;
-            var res = JsonSerializer.Deserialize<LogoutModel>(jsonString);
-            if (res!.statusCode is 200)
-            {
-                return RedirectToAction("Index", "User");
-            }
-
-            return RedirectToAction("Index", "Home");
+            await _userService.LogoutAsync();
+            return RedirectToAction("Login","User");
         }
     }
 }

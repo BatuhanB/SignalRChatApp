@@ -1,15 +1,20 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using SignalRChatApp.Persistence;
+using SignalRChatApp.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.ConfigureApplication(builder.Configuration);
+builder.Services.ConfigurePersistence(builder.Configuration);
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(opt =>
     {
-        opt.LoginPath = "/";
-        opt.LogoutPath = "/user/logout";
+        opt.LoginPath = "/User/Login";
+        opt.LogoutPath = "/User/Login";
         opt.Cookie = new CookieBuilder
         {
             Name = "AspNetCoreIdentityCookie",
@@ -21,7 +26,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         opt.ExpireTimeSpan = TimeSpan.FromMinutes(2);
         opt.AccessDeniedPath = "/shared/error";
     });
-
 
 builder.Services.AddHttpClient("API", httpClient =>
 {
@@ -49,7 +53,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=User}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

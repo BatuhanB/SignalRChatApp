@@ -10,6 +10,14 @@
     <PackageReference Include="MediatR" Version="12.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.12" />
+	  <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SignalRChatApp.Core\SignalRChatApp.Domain.csproj" />
+    <ProjectReference Include="..\SignalRChatApp.Persistence\SignalRChatApp.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

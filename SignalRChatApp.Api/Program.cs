@@ -11,20 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();
 builder.Services.AddControllers();
 
-builder.Services.AddIdentity<ApplicationUser, UserRoles>(opt =>
-{
-    opt.User.RequireUniqueEmail = true;
-    opt.Password.RequireNonAlphanumeric = false;
-    opt.Password.RequiredLength = 5;
-    opt.Password.RequireNonAlphanumeric = false;
-    opt.Password.RequireLowercase = false;
-    opt.Password.RequireUppercase = false;
-    opt.Password.RequireDigit = false;
-}).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
-
-builder.Services.ConfigureApplication(builder.Configuration);
-builder.Services.ConfigurePersistence(builder.Configuration);
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
