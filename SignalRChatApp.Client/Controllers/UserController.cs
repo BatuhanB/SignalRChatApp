@@ -62,7 +62,7 @@ namespace SignalRChatApp.Client.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
-            returnUrl ??= Url.Action("Chats", "Home");
+            returnUrl = returnUrl ?? Url.Action("Index", "Home");
             if (model == null)
             {
                 ModelState.AddModelError(string.Empty, "Please check your information!");
@@ -88,10 +88,9 @@ namespace SignalRChatApp.Client.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Logout()
+        public async Task Logout()
         {
             await _userService.LogoutAsync();
-            return RedirectToAction("Login","User");
         }
     }
 }

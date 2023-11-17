@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using SignalRChatApp.Persistence;
 using SignalRChatApp.Application;
 
@@ -10,14 +9,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.ConfigureApplication(builder.Configuration);
 builder.Services.ConfigurePersistence(builder.Configuration);
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(opt =>
+builder.Services.ConfigureApplicationCookie(opt =>
     {
         opt.LoginPath = "/User/Login";
-        opt.LogoutPath = "/User/Login";
+        opt.LogoutPath = "/User/Logout";
         opt.Cookie = new CookieBuilder
         {
-            Name = "AspNetCoreIdentityCookie",
+            Name = "SignalRChatAppCookie",
             HttpOnly = false,
             SameSite = SameSiteMode.Lax,
             SecurePolicy = CookieSecurePolicy.Always

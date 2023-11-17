@@ -5,15 +5,14 @@ using System.Diagnostics;
 
 namespace SignalRChatApp.Client.Controllers
 {
-    //[Authorize]
     public class HomeController : Controller
     {
-        //[Authorize(Roles = "User")]
         public IActionResult Index()
         {
             return View();
         }
-        
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Chats()
         {
             return View();

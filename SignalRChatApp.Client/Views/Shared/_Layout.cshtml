@@ -52,7 +52,7 @@
                 }
                 @if (Context.User.Identity.IsAuthenticated)
                 {
-                    <a class="btn btn-success mx-1" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
+                    <a class="btn btn-success mx-1" asp-area="" asp-controller="User" asp-action="Logout" asp-route-returnurl="/Home/Index">Logout</a>
                 }
             </div>
         </nav>
