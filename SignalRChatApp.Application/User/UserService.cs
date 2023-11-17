@@ -47,11 +47,17 @@ namespace SignalRChatApp.Application.User
 
             if (userModel == null) return Response<UserLoginDto>.Fail(400, new Error($"No user has found with {user.Email}", true));
 
-            var result = await _signInManager.PasswordSignInAsync(user: userModel, user.Password, isPersistent: user.RememberMe, false);
+            var result = await _signInManager.PasswordSignInAsync(user: userModel, user.Password, isPersistent: user.RememberMe, true);
 
             if (!result.Succeeded)
             {
-                return Response<UserLoginDto>.Fail(400, new Error("Incorrect email or password!", true));
+                var failedAttemptCount = await _userManager.GetAccessFailedCountAsync(userModel);
+                return Response<UserLoginDto>.Fail(400, new Error($"Login attempt have failed {failedAttemptCount} times!", true));
+            }
+
+            if(result.IsLockedOut)
+            {
+                return Response<UserLoginDto>.Fail(400, new Error("Please wait 1 minute to reenter credentials!", true));
             }
             return Response<UserLoginDto>.Success(user, 200);
         }
