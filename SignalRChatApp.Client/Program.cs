@@ -21,7 +21,7 @@ builder.Services.ConfigureApplicationCookie(opt =>
             SecurePolicy = CookieSecurePolicy.Always
         };
         opt.SlidingExpiration = true;
-        opt.ExpireTimeSpan = TimeSpan.FromMinutes(2);
+        opt.ExpireTimeSpan = TimeSpan.FromHours(1);
         opt.AccessDeniedPath = "/shared/error";
     });
 

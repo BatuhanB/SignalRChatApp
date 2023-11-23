@@ -1,7 +1,7 @@
 $(document).ready(() => {
     var conn = new signalR.HubConnectionBuilder().
         withUrl("https://localhost:7270/chat-hub")
-        .withAutomaticReconnect([1000,1000,4000,8000]) // in normally tries in 0 - 2 - 10 - 30 seconds
+        .withAutomaticReconnect([1000, 1000, 4000, 8000]) // in normally tries in 0 - 2 - 10 - 30 seconds
         .build();
 
     async function start() {
@@ -59,12 +59,12 @@ $(document).ready(() => {
     const ulTag = document.getElementById("result");
     conn.on("receiveMessage", function (userName, message) {
 
-        
+
         const liTag = document.createElement("li");
         liTag.classList.add("list-group-item");
         liTag.textContent = userName + " says " + message;
         ulTag.appendChild(liTag);
     })
 
-    
+
 });

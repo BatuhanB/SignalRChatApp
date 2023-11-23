@@ -1,54 +1,39 @@
 ﻿@model LoginViewModel;
-
+@{
+    Layout = null;
+}
 @section Scripts{
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
-
-<section class="sign-in">
-    <div class="container">
-        <div class="signin-content">
-            <div class="signin-image">
-                <figure><img src="~/images/signin-image.jpg" alt="sing up image"></figure>
-            </div>
-            <div class="signin-form">
-                <h2 class="form-title">Sign In</h2>
-                @if (TempData["SuccessMessage"] != null)
-                {
-                    <div class="alert alert-success" role="alert">
-                        @TempData["SuccessMessage"]
-                    </div>
-                }
-                <form asp-action="Login" asp-controller="User" asp-route-returnUrl="@Context.Request.Query["returnUrl"]" method="post" class="register-form" id="login-form">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Email" class="control-label"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                        <input asp-for="Email" class="form-control" type="email" id="your_name" placeholder="Enter Email" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Password" class="control-label"><i class="zmdi zmdi-lock"></i></label>
-                        <input asp-for="Password" class="form-control" type="password" id="your_pass" placeholder="Enter Password" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group form-check" style="height:35px">
-                        <input type="checkbox" class="form-check-input" id="rememberMe" asp-for="RememberMe">
-                        <label class="form-check-label" for="rememberMe">Check me out</label>
-                    </div>
-                    <div class="form-group form-button">
-                        <input type="submit" value="Login" name="signin" id="signin" class="form-submit" />
-                    </div>
-                </form>
-                <div class="social-login">
-                    <span class="social-label">Or login with</span>
-                    <ul class="socials">
-                        <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                        <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
-                        <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
-                    </ul>
-                </div>
-            </div>
+<head>
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <script src="~/lib/jquery/dist/jquery.min.js"> </script>
+</head>
+<div class="container">
+    <h2 class="form-title">Sign In</h2>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["SuccessMessage"]
         </div>
-    </div>
-</section>
+    }
+    <form asp-action="Login" asp-controller="User" asp-route-returnUrl="@Context.Request.Query["returnUrl"]" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label" asp-for="Email">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="Email">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label" asp-for="Password">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" asp-for="Password">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" asp-for="RememberMe">
+            <label class="form-check-label" for="exampleCheck1" asp-for="RememberMe">Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary" value="Login">Submit</button>
+    </form>
+</div>
 
 
+<script src="~/js/bootstrap.min.js"></script>

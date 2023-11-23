@@ -1,45 +1,85 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Chats";
 }
 
-<h1>Chats</h1>
-
 <style>
-    .row {
+    #custom-row {
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-end;
+        margin-top: 150px;
     }
-
-    #btn-send {
-        width: 200px;
-    }
-    /* .form-control{
-            width:500px !important;
-        } */
 </style>
 
-<div class="container">
-    <div class="row">
-
+<div class="container py-5 px-4">
+    <div class="row rounded-lg overflow-hidden shadow" id="custom-row">
+        <!-- Connection Information -->
         <div class="col-md-12">
             <div id="conn-result" style="display:none;"></div>
         </div>
-        <div class="col-md-6">
-            @* <input id="txt-user" class="form-control" /> *@
-            <h5 id="txt-user">@Context.User.Identity!.Name</h5>
+        <!-- Users box-->
+        <div class="col-4 px-0">
+            <div class="bg-white">
+                <div class="bg-gray px-4 py-2 bg-light">
+                    <p class="h5 mb-0 py-1" id="txt-user">@Context.User.Identity!.Name</p>
+                </div>
+                <div class="messages-box">
+                    <div class="list-group rounded-0">
+                        <div class="list-group-item">
+                            <p>Chat history 1</p>
+                        </div>
+                        <div class="list-group-item">
+                            <p>Chat history 2</p>
+                        </div>
+                        <div class="list-group-item">
+                            <p>Chat history 2</p>
+                        </div>
+                        <div class="list-group-item">
+                            <p>Chat history 2</p>
+                        </div>
+                        <div class="list-group-item">
+                            <p>Chat history 2</p>
+                        </div>
+                        <div class="list-group-item">
+                            <p>Chat history 2</p>
+                        </div>
+                        <div class="list-group-item">
+                            <p>Chat history 2</p>
+                        </div>
+                        <div class="list-group-item">
+                            <p>Chat history 2</p>
+                        </div>
+                        <!-- More chat histories can be added here -->
+                    </div>
+                </div>
+            </div>
         </div>
-        <br />
-        <div class="col-md-6">
-            <input id="txt-message" class="form-control" />
-        </div>
-        <br />
-        <button id="btn-send" class="btn btn-dark">Send</button>
-        <div>
-            <ul id="result" class="list-group list-group-flush"></ul>
+        <!-- Chat Box-->
+        <div class="col-8 px-0">
+            <div class="px-4 pt-5 pb-4 bg-white">
+                <div class="media">
+                    <div class="media-body">
+                        <div class="bg-light rounded py-2 px-3 mb-2">
+                            <ul id="result" class="list-group list-group-flush"></ul>
+                        </div>
+                        <!-- More messages can be added here -->
+                    </div>
+                </div>
+            </div>
+            <div class="px-4 py-3 bg-light">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Type a message" id="txt-message">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-success" id="btn-send">Send</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+
+
 <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/custom.js"></script>
+
