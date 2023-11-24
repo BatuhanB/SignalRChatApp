@@ -1,39 +1,82 @@
 ﻿@model LoginViewModel;
 @{
     Layout = null;
+    ViewData["Title"] = "Login";
 }
 @section Scripts{
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
+<!DOCTYPE html>
+<html class="no-js" lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@ViewData["Title"]</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
     <script src="~/lib/jquery/dist/jquery.min.js"> </script>
+    <style>
+        body {
+            background: url('~/../../img/background-image.png') no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        .blur-effect {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 20px;
+            border-radius: 15px;
+        }
+    </style>
 </head>
-<div class="container">
-    <h2 class="form-title">Sign In</h2>
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success" role="alert">
-            @TempData["SuccessMessage"]
-        </div>
-    }
-    <form asp-action="Login" asp-controller="User" asp-route-returnUrl="@Context.Request.Query["returnUrl"]" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label" asp-for="Email">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="Email">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label" asp-for="Password">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" asp-for="Password">
-        </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1" asp-for="RememberMe">
-            <label class="form-check-label" for="exampleCheck1" asp-for="RememberMe">Check me out</label>
-        </div>
-        <button type="submit" class="btn btn-primary" value="Login">Submit</button>
-    </form>
-</div>
+<body>
+    <div class="container">
+        <div class="row justify-content-center align-items-center mt-5">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            <div class="col-md-6 rounded-lg overflow-hidden shadow px-5 py-4 blur-effect ">
+                <form asp-action="Login" asp-controller="User" asp-route-returnUrl="@Context.Request.Query["returnUrl"]" method="post">
 
+                    <h1 class="form-title mb-4 text-center" style="margin:0 auto;">SIGN IN</h1>
 
-<script src="~/js/bootstrap.min.js"></script>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" class="form-label" asp-for="Email">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1" class="form-label" asp-for="Password">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" asp-for="Password">
+                    </div>
+                    <div class="form-group d-flex justify-content-between align-items-center">
+                        <button type="submit" class="btn btn-outline-dark">Submit</button>
+                        <div class="form-check mt-4">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+
+                    </div>
+                </form>
+                <div class="text-center">
+                    <p>or sign in with:</p>
+                    <button class="btn btn-primary"><i class="fab fa-facebook-f"></i> Facebook</button>
+                    <button class="btn btn-danger"><i class="fab fa-google"></i> Google</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/bootstrap.min.js"></script>
+</body>
+</html>
+

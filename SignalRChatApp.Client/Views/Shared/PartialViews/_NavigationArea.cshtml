@@ -35,6 +35,11 @@
     </nav>
 </header>
  *@
+<style>
+    #font-weights {
+        font-weight: 700;
+    }
+</style>
 <header>
     <!-- Header Start -->
     <div class="header-area header-transparrent ">
@@ -59,25 +64,25 @@
                                     <li><a href="contact.html">Contact</a></li>
                                     @if (Context.User!.Identity!.IsAuthenticated)
                                     {
-                                        <li><a asp-area="" asp-action="Chats" asp-controller="Home">Chats</a></li>
+                                        <li><a asp-area="" asp-action="Chats" asp-controller="Home" id="font-weights">Chats</a></li>
                                     }
                                     @if (!Context.User.Identity.IsAuthenticated)
                                     {
-                                        <li><a asp-area="" asp-controller="User" asp-action="Login">Sign In</a></li>
-                                        <li><a asp-area="" asp-controller="User" asp-action="Register">Sign Up</a></li>
+                                        <li><a asp-area="" asp-controller="User" asp-action="Login" id="font-weights">Sign In</a></li>
+                                        <li><a asp-area="" asp-controller="User" asp-action="Register" id="font-weights">Sign Up</a></li>
                                     }
                                     @if (Context.User.Identity.IsAuthenticated)
                                     {
-                                        <li><a asp-area="" asp-controller="User" asp-action="Logout" asp-route-returnurl="/Home/Index">Logout</a></li>
+                                        <li><a asp-area="" asp-controller="User" asp-action="Logout" asp-route-returnurl="/Home/Index" id="font-weights">Logout</a></li>
                                     }
-                                   
+
                                     @* <li>
-                                        <a href="#">Pages</a>
-                                        <ul class="submenu">
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="single-blog.html">Blog Details</a></li>
-                                            <li><a href="elements.html">Element</a></li>
-                                        </ul>
+                                    <a href="#">Pages</a>
+                                    <ul class="submenu">
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="single-blog.html">Blog Details</a></li>
+                                    <li><a href="elements.html">Element</a></li>
+                                    </ul>
                                     </li> *@
                                 </ul>
                             </nav>
