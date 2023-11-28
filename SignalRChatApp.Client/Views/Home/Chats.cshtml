@@ -7,18 +7,39 @@
         display: flex;
         justify-content: center;
         align-items: flex-end;
+    }
+
+    #custom-row-2 {
         margin-top: 150px;
     }
 </style>
 
 <div class="container py-5 px-4">
-    <div class="row rounded-lg overflow-hidden shadow" id="custom-row">
+    <div class="row rounded-lg overflow-hidden shadow" id="custom-row-2">
         <!-- Connection Information -->
         <div class="col-md-12">
             <div id="conn-result" style="display:none;"></div>
         </div>
+        <div class="col-md-12">
+            <div id="conn-user-result" style="display:none;"></div>
+        </div>
+        <!-- User List -->
+        <div class="col-3 px-0">
+            <div class="bg-white">
+                <div class="bg-gray px-4 py-2 bg-light">
+                    <p class="h5 mb-0 py-1" id="txt-user">User List</p>
+                </div>
+                <div class="messages-box">
+                    <div class="list-group rounded-0">
+                        <div class="list-group-item" id="user-list">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Users box-->
-        <div class="col-4 px-0">
+        <div class="col-3 px-0">
             <div class="bg-white">
                 <div class="bg-gray px-4 py-2 bg-light">
                     <p class="h5 mb-0 py-1" id="txt-user">@Context.User.Identity!.Name</p>
@@ -34,28 +55,13 @@
                         <div class="list-group-item">
                             <p>Chat history 2</p>
                         </div>
-                        <div class="list-group-item">
-                            <p>Chat history 2</p>
-                        </div>
-                        <div class="list-group-item">
-                            <p>Chat history 2</p>
-                        </div>
-                        <div class="list-group-item">
-                            <p>Chat history 2</p>
-                        </div>
-                        <div class="list-group-item">
-                            <p>Chat history 2</p>
-                        </div>
-                        <div class="list-group-item">
-                            <p>Chat history 2</p>
-                        </div>
                         <!-- More chat histories can be added here -->
                     </div>
                 </div>
             </div>
         </div>
         <!-- Chat Box-->
-        <div class="col-8 px-0">
+        <div class="col-6 px-0" id="custom-row">
             <div class="px-4 pt-5 pb-4 bg-white">
                 <div class="media">
                     <div class="media-body">
